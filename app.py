@@ -1,37 +1,53 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for
 from models import db, Product
-from forms import ProductForm
+import os
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///products.db'
-app.config['SECRET_KEY'] = 'supersecretkey'
-app.config['PRODUCT_ADD_PASSWORD'] = '1234'
-
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///shop.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['UPLOAD_FOLDER'] = 'static/images'
 db.init_app(app)
 
-with app.app_context():
-    db.create_all()
+ADMIN_PASSWORD = "admin123"
 
 @app.route('/')
 def index():
-    products = Product.query.all()
+    category = request.args.get('category')
+    min_price = request.args.get('min_price', type=int)
+    max_price = request.args.get('max_price', type=int)
+
+    products = Product.query
+
+    if category:
+        products = products.filter_by(category=category)
+    if min_price:
+        products = products.filter(Product.price >= min_price)
+    if max_price:
+        products = products.filter(Product.price <= max_price)
+
+    products = products.all()
     return render_template('index.html', products=products)
 
 @app.route('/add', methods=['GET', 'POST'])
 def add_product():
-    form = ProductForm()
-    if form.validate_on_submit():
-        if form.password.data != app.config['PRODUCT_ADD_PASSWORD']:
-            flash('Неверный пароль', 'danger')
-            return render_template('add_product.html', form=form)
+    if request.method == 'POST':
+        password = request.form.get('password')
+        if password != ADMIN_PASSWORD:
+            return "Unauthorized", 403
+        name = request.form['name']
+        price = int(request.form['price'])
+        description = request.form['description']
+        category = request.form['category']
+        image = request.files['image']
+        filename = image.filename
+        path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        image.save(path)
 
-        new_product = Product(name=form.name.data, price=form.price.data)
-        db.session.add(new_product)
+        product = Product(name=name, price=price, description=description, category=category, image=filename)
+        db.session.add(product)
         db.session.commit()
-        flash('Товар добавлен', 'success')
         return redirect(url_for('index'))
-
-    return render_template('add_product.html', form=form)
+    return render_template('add_product.html')
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8000)
+    app.run(debug=True)
