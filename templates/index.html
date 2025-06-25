@@ -1,15 +1,13 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>Каталог товаров</title>
-</head>
+<!doctype html>
+<html>
+<head><title>Catalog</title></head>
 <body>
-    <h1>Каталог товаров</h1>
-    <ul>
-        {% for p in products %}
-            <li>{{ p.name }} — {{ p.price }} ₽</li>
-        {% endfor %}
-    </ul>
+<h1>Product Catalog</h1>
+<ul>
+{% for product in products %}
+<li><strong>{{ product.name }}</strong>: {{ product.description }}</li>
+{% endfor %}
+</ul>
+<a href="{{ url_for('add_product') }}">Add Product</a>
 </body>
 </html>
