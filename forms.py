@@ -1,11 +1,9 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, FloatField, SubmitField, SelectField
+from wtforms import StringField, FloatField, PasswordField, SubmitField
 from wtforms.validators import DataRequired
 
 class ProductForm(FlaskForm):
-    name = StringField('Название', validators=[DataRequired()])
-    description = StringField('Описание')
+    name = StringField('Название товара', validators=[DataRequired()])
     price = FloatField('Цена', validators=[DataRequired()])
-    image_url = StringField('Ссылка на изображение')
-    category = SelectField('Категория', coerce=int)
-    submit = SubmitField('Сохранить')
+    password = PasswordField('Пароль', validators=[DataRequired()])
+    submit = SubmitField('Добавить')
