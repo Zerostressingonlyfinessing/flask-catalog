@@ -2,16 +2,16 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>Добавить товар</title>
+  <title>Редактировать товар</title>
 </head>
 <body>
-  <h1>Добавить товар</h1>
+  <h1>Редактировать товар</h1>
   <form method="POST">
     {{ form.hidden_tag() }}
     {{ form.name.label }} {{ form.name(size=32) }}<br>
     {{ form.description.label }} {{ form.description(size=64) }}<br>
     {{ form.price.label }} {{ form.price() }}<br>
-    {{ form.submit() }}
+    {{ form.submit(value='Сохранить') }}
   </form>
 </body>
 </html>

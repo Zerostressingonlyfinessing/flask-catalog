@@ -1,14 +1,14 @@
-<!DOCTYPE html>
-<html>
-<head><title>Вход</title></head>
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Вход</title>
+</head>
 <body>
-    <h1>Вход в админку</h1>
-    {% if error %}
-        <p style="color:red">{{ error }}</p>
-    {% endif %}
-    <form method="POST">
-        <p>Пароль: <input type="password" name="password" /></p>
-        <p><input type="submit" value="Войти" /></p>
-    </form>
+  <h1>Вход администратора</h1>
+  <form method="POST">
+    <input type="password" name="password" placeholder="Пароль">
+    <input type="submit" value="Войти">
+  </form>
 </body>
 </html>

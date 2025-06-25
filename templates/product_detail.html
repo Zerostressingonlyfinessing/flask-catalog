@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ product.name }}</title>
+</head>
+<body>
+  <h1>{{ product.name }}</h1>
+  <p><strong>Цена:</strong> {{ product.price }} руб.</p>
+  <p>{{ product.description }}</p>
+  <a href="{{ url_for('catalog') }}">← Назад в каталог</a>
+</body>
+</html>
