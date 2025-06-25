@@ -1,17 +1,17 @@
 <!doctype html>
-<html lang="ru">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>Добавить товар</title>
+    <title>Добавить товар</title>
 </head>
 <body>
-  <h1>Добавить товар</h1>
-  <form method="POST">
-    {{ form.hidden_tag() }}
-    {{ form.name.label }} {{ form.name(size=32) }}<br>
-    {{ form.description.label }} {{ form.description(size=64) }}<br>
-    {{ form.price.label }} {{ form.price() }}<br>
-    {{ form.submit() }}
-  </form>
+    <h1>Добавить товар</h1>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <p>{{ form.name.label }} {{ form.name() }}</p>
+        <p>{{ form.price.label }} {{ form.price() }}</p>
+        <p>{{ form.password.label }} {{ form.password() }}</p>
+        <p>{{ form.submit() }}</p>
+    </form>
+    <a href="{{ url_for('index') }}">Назад</a>
 </body>
 </html>
